@@ -57,7 +57,6 @@ public class LevelLector {
             line = s.nextLine();
             i++;
         }
-
         return lev;
     }
 }

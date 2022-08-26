@@ -32,7 +32,6 @@ public class Level {
             for(int i = 0; i < oldL; i++)
                 for(int j = 0; j < oldC; j++)
                     newBoard[i][j] = board[i][j];
-
             board = newBoard;
         }
         if(this.l <= l)

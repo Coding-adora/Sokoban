@@ -11,7 +11,7 @@ public class Sokoban {
                 p.printLevel(lev);
             }
         }catch (Exception e){
-            System.err.println("Something went wrong!  " + e);
+            System.err.println("Something went wrong! " + e);
         }
     }
 }
