@@ -8,6 +8,8 @@ import java.io.InputStream;
 public class GraphicLevel extends JComponent {
     Game game;
     Image goal, box, boxOnGoal, wall, player,floor;
+    int cellWidth;
+    int cellHeight;
 
     private Image chargeImage(String name){
         Image img = null;
@@ -41,8 +43,8 @@ public class GraphicLevel extends JComponent {
         draw.clearRect(0, 0, width, height);
 
         Level lev = game.level();
-        int cellWidth = width/lev.columns();
-        int cellHeight = height/lev.lines();
+        cellWidth = width/lev.columns();
+        cellHeight = height/lev.lines();
 
         for(int i = 0; i < lev.columns(); i++){
             for(int j = 0; j < lev.lines(); j++){
@@ -67,24 +69,11 @@ public class GraphicLevel extends JComponent {
             }
         }
     }
+    public int cellWidth(){
+        return cellWidth;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public int cellHeight(){
+        return cellHeight;
+    }
 }

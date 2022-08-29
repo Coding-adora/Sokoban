@@ -8,6 +8,8 @@ public class Level {
     int[][] board;
     int l, c;
     String name;
+    int playerL, playerC;
+    int nbTarget, nbBoxOnTarget;
 
     public Level(){
         board = new int[1][1];
@@ -52,6 +54,9 @@ public class Level {
    private void addContent(int content, int i, int j){
         resizeBoard(i, j);
         board[i][j] |= content;
+        if(content == BOX)
+            if(hasTarget(i,j))
+                nbBoxOnTarget++;
     }
 
 
@@ -61,6 +66,8 @@ public class Level {
 
     public void addPlayer(int i, int j){
         addContent(PLAYER, i, j);
+        playerL = i;
+        playerC = j;
     }
     public void addBox(int i, int j){
         addContent(BOX, i, j);
@@ -68,6 +75,9 @@ public class Level {
 
     public void addTarget(int i, int j){
         addContent(TARGET, i, j);
+        nbTarget++;
+        if(hasBox(i,j))
+            nbBoxOnTarget++;
     }
 
     public int lines(){
@@ -100,5 +110,50 @@ public class Level {
 
     public boolean hasBox(int i, int j){
         return (board[i][j] & BOX) != 0;
+    }
+
+    public int playerL(){
+        return playerL;
+    }
+
+    public int playerC(){
+        return playerC;
+    }
+
+    public boolean move(int dL, int dC){
+        int destL = playerL + dL;
+        int destC = playerC + dC;
+        if(hasBox(destL, destC)){
+            int boxL = destL + dL;
+            int boxC = destC + dC;
+            if(isFree(boxL, boxC)){
+                delete(BOX,destL, destC);
+                addContent(BOX, boxL, boxC);
+            }
+        }
+        if(isFree(destL, destC)){
+            delete(PLAYER, playerL, playerC);
+            playerL = destL;
+            playerC = destC;
+            addContent(PLAYER, playerL,playerC);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isFree(int l, int c){
+        return !hasWall(l,c) && !hasBox(l,c);
+    }
+
+    public void delete(int elm, int i, int j){
+        board[i][j] &= ~elm;
+        if(elm ==BOX)
+            if(hasTarget(i,j))
+                nbBoxOnTarget--;
+    }
+
+    public boolean isFinished(){
+        return nbBoxOnTarget == nbTarget;
     }
 }

@@ -5,6 +5,7 @@ public class GraphicInterface implements Runnable{
     Game game;
     boolean fullScreen;
     JFrame frame;
+    GraphicLevel gl;
 
     public GraphicInterface(Game g){
         game = g;
@@ -16,7 +17,10 @@ public class GraphicInterface implements Runnable{
 
     public void run(){
         frame = new JFrame("Sokoban by Coding-adora");
-        frame.add(new GraphicLevel(game));
+        gl = new GraphicLevel(game);
+        frame.add(gl);
+        gl.addMouseListener(new MouseEvents(gl,game));
+        frame.addKeyListener(new KeyboardEvents(this, game));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000,600);
         frame.setLocationRelativeTo(null);
@@ -33,5 +37,9 @@ public class GraphicInterface implements Runnable{
             device.setFullScreenWindow(frame);
             fullScreen = true;
         }
+    }
+
+    public void repaint(){
+        gl.repaint();
     }
 }
